@@ -1,21 +1,17 @@
 pywinutiltools
 ==============
+  该项目主要是方便在 WSL Linux 下操作 windows 下当前用户的的环境变量、服务等
+主要是通过调用 powershell 来实现
 
------
+# 支持命令
 
-.. contents:: **Table of Contents**
-    :backlinks: none
+## pywinservice
+  获取 windows 下的服务(Service)
 
-Installation
-------------
+## pywinenv
+  操作 windows 下的环境变量
 
-pywinutiltools is distributed on `PyPI <https://pypi.org>`_ as a universal
-wheel and is available on Linux/macOS and Windows and supports
-Python 2.7/3.5+ and PyPy.
 
-.. code-block:: bash
-
-    $ pip install pywinutiltools
 
 License
 -------
