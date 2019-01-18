@@ -3,9 +3,18 @@ from pywinutiltools.util import ask_yes_or_no
 import click
 
 
-def list_env(name):
+def list_env(name, split=False):
     if name:
-        powershell.exec_command('(get-childitem  Env:%s).Value' % name)
+        p = powershell.exec_command(
+            '(get-childitem  Env:%s).Value' % name, capture=True
+            )
+        v = p.stdout.decode('utf-8').rstrip('\r\n')
+        if not split:
+            print(v)
+        else:
+            v_list = v.split(';')
+            for n in v_list:
+                print(n)
     else:
         powershell.exec_command('get-childitem  Env:')
 
@@ -53,9 +62,10 @@ def cli(ctx):
 
 @cli.command('list')
 @click.pass_context
+@click.option('--split', is_flag=True, default=False)
 @click.argument('name', nargs=1, required=False)
-def list_command(ctx, name):
-    list_env(name)
+def list_command(ctx, name, split):
+    list_env(name, split)
 
 
 @cli.command('get')
