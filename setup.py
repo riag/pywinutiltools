@@ -45,4 +45,10 @@ setup(
     tests_require=['coverage', 'pytest'],
 
     packages=find_packages(),
+    entry_points={
+        'console_scripts': [
+                'pywinenv=pywinutiltools.pywinenv:cli',
+                'pywinservice=pywinutiltools.pywinservice:cli'
+        ]
+    }
 )
