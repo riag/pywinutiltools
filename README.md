@@ -1,14 +1,14 @@
 pywinutiltools
 ==============
-  该项目主要是方便在 WSL Linux 下操作 windows 下当前用户的的环境变量、服务等,
+  该项目主要是方便在 WSL Linux 下操作 windows 下当前用户的的环境变量、服务等, 
 主要是通过调用 powershell 来实现
 
-# 支持命令
+## 支持如下命令
 
-## pywinservice
+### pywinservice
   获取 windows 下的服务(Service)
 
-## pywinenv
+### pywinenv
   操作 windows 下的环境变量
 
 
