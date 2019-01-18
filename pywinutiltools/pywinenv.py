@@ -3,8 +3,11 @@ from pywinutiltools.util import ask_yes_or_no
 import click
 
 
-def list_env():
-    powershell.exec_command('get-childitem  Env:')
+def list_env(name):
+    if name:
+        powershell.exec_command('(get-childitem  Env:%s).Value' % name)
+    else:
+        powershell.exec_command('get-childitem  Env:')
 
 
 def set_env(name, value):
@@ -50,8 +53,9 @@ def cli(ctx):
 
 @cli.command('list')
 @click.pass_context
-def list_command(ctx):
-    list_env()
+@click.argument('name', nargs=1, required=False)
+def list_command(ctx, name):
+    list_env(name)
 
 
 @cli.command('get')
