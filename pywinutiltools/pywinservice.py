@@ -7,10 +7,10 @@ machine = platform.machine()
 if machine == 'amd64':
     machine = 'x86_64'
 
-sudo_bin = pkg_resources.resource_filename(__name__, 'bin/%s/sudo.exe' % machine)
+DEFAULT_SUDO_BIN = pkg_resources.resource_filename(__name__, 'bin/%s/sudo.exe' % machine)
 
 
-def list_service(name_pattern):
+def list_service(winsudo_bin, name_pattern):
     cmd_list = ['get-service']
     if name_pattern:
         cmd_list.append(name_pattern)
@@ -19,8 +19,12 @@ def list_service(name_pattern):
     powershell.exec_command(' '.join(cmd_list))
 
 
-def stop_service(name):
+def stop_service(winsudo_bin, name):
     powershell_bin = powershell.get_powershell_bin()
+    sudo_bin = winsudo_bin
+    if not winsudo_bin:
+        sudo_bin = DEFAULT_SUDO_BIN
+
     cmd_list = [
         sudo_bin,
         powershell_bin,
@@ -33,9 +37,12 @@ def stop_service(name):
     )
 
 
-def start_service(name):
+def start_service(winsudo_bin, name):
 
     powershell_bin = powershell.get_powershell_bin()
+    sudo_bin = winsudo_bin
+    if not winsudo_bin:
+        sudo_bin = DEFAULT_SUDO_BIN
     cmd_list = [
         sudo_bin,
         powershell_bin,
@@ -50,29 +57,34 @@ def start_service(name):
 
 @click.group()
 @click.pass_context
-def cli(ctx):
+@click.option('--winsudo-bin', default='', required=True)
+def cli(ctx, winsudo_bin):
     ctx.ensure_object(dict)
+    ctx.obj['winsudo_bin'] = winsudo_bin
 
 
 @cli.command('list')
 @click.pass_context
 @click.argument('name_pattern', nargs=1, required=False)
 def list_command(ctx, name_pattern):
-    list_service(name_pattern)
+    winsudo_bin = ctx.obj['winsudo_bin']
+    list_service(winsudo_bin, name_pattern)
 
 
 @cli.command('stop')
 @click.pass_context
 @click.argument('name', nargs=1)
 def stop_command(ctx, name):
-    stop_service(name)
+    winsudo_bin = ctx.obj['winsudo_bin']
+    stop_service(winsudo_bin, name)
 
 
 @cli.command('start')
 @click.pass_context
 @click.argument('name', nargs=1)
 def start_command(ctx, name):
-    start_service(name)
+    winsudo_bin = ctx.obj['winsudo_bin']
+    start_service(winsudo_bin, name)
 
 
 if __name__ == '__main__':
