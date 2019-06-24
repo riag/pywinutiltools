@@ -48,6 +48,7 @@ setup(
         'console_scripts': [
                 'pywinenv=pywinutiltools.pywinenv:cli',
                 'pywinservice=pywinutiltools.pywinservice:cli'
+                'pyps=pywinutiltools.pyps.cli'
         ]
     },
     package_data={
