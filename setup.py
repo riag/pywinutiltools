@@ -49,6 +49,7 @@ setup(
                 'pywinenv=pywinutiltools.pywinenv:cli',
                 'pywinservice=pywinutiltools.pywinservice:cli',
                 'pyps=pywinutiltools.pyps:cli',
+                'pykill=pywinutiltools.pykill:cli',
         ]
     },
 )
