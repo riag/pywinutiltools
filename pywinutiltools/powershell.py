@@ -38,12 +38,33 @@ def start_process(process: str, *argv, **kwargs):
     ]
     args = [
         'Start-Process',
-        '-FilePath', '\\"%s\\"' % process,
+        '-FilePath', "'%s'" % process,
     ]
     if len(argv) > 0:
         args.append('-ArgumentList')
-        v_list = ['\\"%s\\"' % v for v in argv]
+        v_list = ["'%s'" % v for v in argv]
         args.append(', '.join(v_list))
+
+    cmd_list.append(
+            '"%s"' % ' '.join(args)
+        )
+    call(cmd_list, **kwargs)
+
+def run_as(process: str, *argv, **kwargs):
+    powershell_bin = get_powershell_bin()
+    cmd_list = [
+            powershell_bin,
+            '-NoProfile',
+    ]
+    args = [
+        'Start-Process',
+        '-verb', 'RunAs',
+        '-FilePath', "'%s'" % process,
+    ]
+    if len(argv) > 0:
+        args.append('-ArgumentList')
+        v_list = ["'%s'" % v for v in argv]
+        args.append('"%s"' % ', '.join(v_list))
 
     cmd_list.append(
             '"%s"' % ' '.join(args)
