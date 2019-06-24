@@ -47,7 +47,7 @@ setup(
     entry_points={
         'console_scripts': [
                 'pywinenv=pywinutiltools.pywinenv:cli',
-                'pywinservice=pywinutiltools.pywinservice:cli'
+                'pywinservice=pywinutiltools.pywinservice:cli',
                 'pyps=pywinutiltools.pyps.cli'
         ]
     },
