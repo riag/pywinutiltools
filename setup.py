@@ -51,7 +51,4 @@ setup(
                 'pyps=pywinutiltools.pyps.cli'
         ]
     },
-    package_data={
-        'pywinutiltools': ['bin/x86_64/sudo.exe', ],
-    }
 )
