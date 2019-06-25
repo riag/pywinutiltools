@@ -2,11 +2,16 @@ from pywinutiltools import powershell
 import click
 
 def list_service(winsudo_bin, name_pattern):
-    cmd_list = ['get-service']
+    cmd_list = ['Get-CimInstance', '-Query']
+    sql = 'select \* from Win32_Service'
     if name_pattern:
-        cmd_list.append(name_pattern)
+        where = "Name like '\"%%%s%%\"'" % name_pattern
+        sql = '%s where %s' % (sql, where)
+
+    cmd_list.append("'\"%s\"'" % sql)
     cmd_list.append('|')
-    cmd_list.append('sort-object status')
+    cmd_list.append('Format-Table')
+    cmd_list.append('Name, State, ProcessId, StartMode, PathName, Description')
     powershell.exec_command(' '.join(cmd_list))
 
 
